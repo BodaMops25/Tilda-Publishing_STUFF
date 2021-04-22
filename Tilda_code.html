@@ -1,0 +1,557 @@
+<style>
+	svg {
+		cursor: pointer;
+	}
+	
+    .svgOnClick > .mainStroke {
+        stroke: #F14841;
+    }
+    
+    .svgOnClick > text {
+        fill: #F14841;
+    }
+
+	.mainStroke{
+		transition: .2s;
+	}
+
+	svg:hover > .mainStroke{  
+		stroke: #F14841;
+	}
+
+	text {
+		transition: fill .2s;
+		font-size: 14px;
+		fill: #9D9696;
+		font-family: Arial;
+		font-weight: bold;
+	}
+
+	svg:hover > text {
+		fill: #F14841;
+	}
+	
+	.svgCBlack {
+	    fill: #000;
+	}
+	
+	.showCharacteristicsButton {
+		cursor: pointer;
+        transform-origin: left center;
+        transform: scaleX(1.4);
+	}
+	
+	.showCharacteristicsButton > text {
+	    transform-origin: left center;
+        transform: scaleX(0.714285);
+	}
+	
+	.showTechDocsButton {
+		cursor: pointer;
+        transform-origin: left center;
+        transform: scaleX(1.5);
+	}
+	
+	.showTechDocsButton > text {
+	    transform-origin: left center;
+        transform: scaleX(0.66);
+	}
+	
+    .popupDiv {
+    	width: 100vw;
+    	height: 100vh;
+    	min-height: 100vh;
+    	background-color: rgba(0,0,0,0.6);
+    	position: fixed;
+    	top: 0;
+    	left: 0;
+    	z-index: 999999;
+    	overflow-y: auto;
+    }
+    
+    .popupDiv > pre {
+        color: #fff;
+    	margin: 0;
+    	padding: 1% 1.5%;
+    	padding-right: 3%;
+    }
+</style>
+
+<script>
+
+    // БЛОК КОДА ДЛЯ РАБОТЫ ЭТОЙ СТРАНИЦИ
+
+    function getNode(node) {
+        return document.querySelector(node)
+    }
+    
+    //создание попапа с нужным текстом который можно выделять
+    
+    function popUp(innerText) {
+        const popupDiv = document.createElement('div')
+        popupDiv.classList.add('popupDiv')
+        popupDiv.innerHTML = `<pre>${innerText}</pre>`
+        
+	    document.body.appendChild(popupDiv)
+	    
+	    document.body.style.overflowY = 'hidden'
+	}
+    
+    //код кнопок моделей кондиционеров и нажатий на них
+    
+    let showCharsObj = {
+    	    showCharacteristicsM7_node: getNode('.showCharacteristicsM7'),
+    		showCharacteristicsM9_node: getNode('.showCharacteristicsM9'),
+    		showCharacteristicsM12_node: getNode('.showCharacteristicsM12'),
+    		showCharacteristicsM18_node: getNode('.showCharacteristicsM18')
+	}
+
+	//функция активного цвета на кнопке при клике
+    
+    function checker(activeNode, nodesObj) {
+        
+        for(let key in nodesObj) {
+            nodesObj[key].classList.remove('svgOnClick')
+        }
+        
+    	activeNode.classList.add('svgOnClick')
+    }
+
+    //события нажатий на кнопки
+    
+    showCharsObj.showCharacteristicsM7_node.onclick = () => {
+    	showCharacteristicsM7()
+    	checker(showCharsObj.showCharacteristicsM7_node, showCharsObj)
+    }
+    
+    showCharsObj.showCharacteristicsM9_node.onclick = () => {
+    	showCharacteristicsM9()
+    	checker(showCharsObj.showCharacteristicsM9_node, showCharsObj)
+    }
+    
+    showCharsObj.showCharacteristicsM12_node.onclick = () => {
+    	showCharacteristicsM12()
+    	checker(showCharsObj.showCharacteristicsM12_node, showCharsObj)
+    }
+    
+    showCharsObj.showCharacteristicsM18_node.onclick = () => {
+    	showCharacteristicsM18()
+    	checker(showCharsObj.showCharacteristicsM18_node, showCharsObj)
+    }
+
+    //код андерлайн блоков
+    
+    let underlineBlocks = {
+        desctiptionBlocks: [getNode('#rec304279065'), getNode('#rec304281427'), getNode('#rec304281561'), getNode('#rec304281584'), getNode('#rec304281540'), getNode('#rec304281578')],
+        characteristicsBlocks: [getNode('#rec304641360')],
+        techDocsBlocks: [getNode('#rec304641439')]
+    }
+
+	//функция переключения блоков определенной кнопки
+
+	function showUnderLineBlocks(activeKey, obj) {
+		for(let key in obj) {
+			for(let i = 0; i < obj[key].length; i++) {
+				obj[key][i].style.display = 'none'
+			}
+		}
+
+		for(let i = 0; i < obj[activeKey].length; i++) {
+			obj[activeKey][i].style.display = 'block'
+		}
+	}
+
+	//обьект андерлайн кнопок
+
+	let underLineButtons = {
+    	    showDesciptionButton_node: getNode('.showDescriptionButton'),
+    		showCharacteristicsButton_node: getNode('.showCharacteristicsButton'),
+    		showTechDocsButton_node: getNode('.showTechDocsButton ')
+	}
+
+	//события нажатий на кнопки
+	
+	underLineButtons.showDesciptionButton_node.onclick = () => {
+    	showUnderLineBlocks('desctiptionBlocks', underlineBlocks)
+    	checker(underLineButtons.showDesciptionButton_node, underLineButtons)
+    }
+    
+    underLineButtons.showCharacteristicsButton_node.onclick = () => {
+    	showUnderLineBlocks('characteristicsBlocks', underlineBlocks)
+    	checker(underLineButtons.showCharacteristicsButton_node, underLineButtons)
+    }
+    
+    underLineButtons.showTechDocsButton_node.onclick = () => {
+    	showUnderLineBlocks('techDocsBlocks', underlineBlocks)
+    	checker(underLineButtons.showTechDocsButton_node, underLineButtons)
+    }
+    
+    //код скрытия блоков характеристик редактора
+    
+    getNode('#rec303803876').style.display = 'none'
+    getNode('#rec303838046').style.display = 'none'
+    getNode('#rec303843806').style.display = 'none'
+    getNode('#rec303846585').style.display = 'none'
+    
+    //сам код привязки характеристик
+
+	const n1_M = getNode('.tn-elem[data-elem-id="1618328903450"] .tn-atom')
+    const n2_M = getNode('.tn-elem[data-elem-id="1618329135691"] .tn-atom')
+    const n3_M = getNode('.tn-elem[data-elem-id="1618328277218"] .tn-atom')
+    const n4_M = getNode('.tn-elem[data-elem-id="1618329054929"] .tn-atom')
+    const n5_M = getNode('.tn-elem[data-elem-id="1618329135745"] .tn-atom')
+    const n6_M = getNode('.tn-elem[data-elem-id="1618329949684"] .tn-atom')
+    const n7_M = getNode('.tn-elem[data-elem-id="1618330088757"] .tn-atom')
+    const n8_M = getNode('.tn-elem[data-elem-id="1618330238554"] .tn-atom')
+    const n9_M = getNode('.tn-elem[data-elem-id="1618330344726"] .tn-atom')
+    const n10_M = getNode('.tn-elem[data-elem-id="1618330477130"] .tn-atom')
+    const n11_M = getNode('.tn-elem[data-elem-id="1618330467428"] .tn-atom')
+    const n12_M = getNode('.tn-elem[data-elem-id="1618330412394"] .tn-atom')
+    
+    //musson 7000
+    
+    function showCharacteristicsM7() {
+    
+    	n1_M.innerText = getNode('.tn-elem[data-elem-id="1618339041362"] .tn-atom').innerText
+    	n2_M.innerText = getNode('.tn-elem[data-elem-id="1618339041446"] .tn-atom').innerText
+    	n3_M.innerText = getNode('.tn-elem[data-elem-id="1618339041312"] .tn-atom').innerText
+    	n4_M.innerText = getNode('.tn-elem[data-elem-id="1618339041408"] .tn-atom').innerText
+    	n5_M.innerText = getNode('.tn-elem[data-elem-id="1618339041485"] .tn-atom').innerText
+    	n6_M.innerText = getNode('.tn-elem[data-elem-id="1618339041591"] .tn-atom').innerText
+    	n7_M.innerText = getNode('.tn-elem[data-elem-id="1618339041626"] .tn-atom').innerText
+    	n8_M.innerText = getNode('.tn-elem[data-elem-id="1618339041639"] .tn-atom').innerText
+    	n9_M.innerText = getNode('.tn-elem[data-elem-id="1618339041707"] .tn-atom').innerText
+    	n10_M.innerText = getNode('.tn-elem[data-elem-id="1618339041797"] .tn-atom').innerText
+    	n11_M.innerText = getNode('.tn-elem[data-elem-id="1618339041780"] .tn-atom').innerText
+    	n12_M.innerText = getNode('.tn-elem[data-elem-id="1618339041765"] .tn-atom').innerText
+    }
+    
+    //musson 9000
+    
+    function showCharacteristicsM9() {
+    
+    	n1_M.innerText = getNode('.tn-elem[data-elem-id="1618344945612"] .tn-atom').innerText
+    	n2_M.innerText = getNode('.tn-elem[data-elem-id="1618344945743"] .tn-atom').innerText
+    	n3_M.innerText = getNode('.tn-elem[data-elem-id="1618344945567"] .tn-atom').innerText
+    	n4_M.innerText = getNode('.tn-elem[data-elem-id="1618344945675"] .tn-atom').innerText
+    	n5_M.innerText = getNode('.tn-elem[data-elem-id="1618344945858"] .tn-atom').innerText
+    	n6_M.innerText = getNode('.tn-elem[data-elem-id="1618344945990"] .tn-atom').innerText
+    	n7_M.innerText = getNode('.tn-elem[data-elem-id="1618344946034"] .tn-atom').innerText
+    	n8_M.innerText = getNode('.tn-elem[data-elem-id="1618344946046"] .tn-atom').innerText
+    	n9_M.innerText = getNode('.tn-elem[data-elem-id="1618344946161"] .tn-atom').innerText
+    	n10_M.innerText = getNode('.tn-elem[data-elem-id="1618344946246"] .tn-atom').innerText
+    	n11_M.innerText = getNode('.tn-elem[data-elem-id="1618344946234"] .tn-atom').innerText
+    	n12_M.innerText = getNode('.tn-elem[data-elem-id="1618344946217"] .tn-atom').innerText
+    }
+    
+    //musson 12000
+    
+    function showCharacteristicsM12() {
+    
+    	n1_M.innerText = getNode('.tn-elem[data-elem-id="1618346317956"] .tn-atom').innerText
+    	n2_M.innerText = getNode('.tn-elem[data-elem-id="1618346318040"] .tn-atom').innerText
+    	n3_M.innerText = getNode('.tn-elem[data-elem-id="1618346317909"] .tn-atom').innerText
+    	n4_M.innerText = getNode('.tn-elem[data-elem-id="1618346317996"] .tn-atom').innerText
+    	n5_M.innerText = getNode('.tn-elem[data-elem-id="1618346318084"] .tn-atom').innerText
+    	n6_M.innerText = getNode('.tn-elem[data-elem-id="1618346318209"] .tn-atom').innerText
+    	n7_M.innerText = getNode('.tn-elem[data-elem-id="1618346318256"] .tn-atom').innerText
+    	n8_M.innerText = getNode('.tn-elem[data-elem-id="1618346318271"] .tn-atom').innerText
+    	n9_M.innerText = getNode('.tn-elem[data-elem-id="1618346318368"] .tn-atom').innerText
+    	n10_M.innerText = getNode('.tn-elem[data-elem-id="1618346318451"] .tn-atom').innerText
+    	n11_M.innerText = getNode('.tn-elem[data-elem-id="1618346318434"] .tn-atom').innerText
+    	n12_M.innerText = getNode('.tn-elem[data-elem-id="1618346318417"] .tn-atom').innerText
+    }
+    
+    //musson 18000
+    
+    function showCharacteristicsM18() {
+    
+    	n1_M.innerText = getNode('.tn-elem[data-elem-id="1618346974588"] .tn-atom').innerText
+    	n2_M.innerText = getNode('.tn-elem[data-elem-id="1618346974662"] .tn-atom').innerText
+    	n3_M.innerText = getNode('.tn-elem[data-elem-id="1618346974545"] .tn-atom').innerText
+    	n4_M.innerText = getNode('.tn-elem[data-elem-id="1618346974624"] .tn-atom').innerText
+    	n5_M.innerText = getNode('.tn-elem[data-elem-id="1618346974698"] .tn-atom').innerText
+    	n6_M.innerText = getNode('.tn-elem[data-elem-id="1618346974811"] .tn-atom').innerText
+    	n7_M.innerText = getNode('.tn-elem[data-elem-id="1618346974849"] .tn-atom').innerText
+    	n8_M.innerText = getNode('.tn-elem[data-elem-id="1618346974861"] .tn-atom').innerText
+    	n9_M.innerText = getNode('.tn-elem[data-elem-id="1618346974930"] .tn-atom').innerText
+    	n10_M.innerText = getNode('.tn-elem[data-elem-id="1618346975039"] .tn-atom').innerText
+    	n11_M.innerText = getNode('.tn-elem[data-elem-id="1618346975024"] .tn-atom').innerText
+    	n12_M.innerText = getNode('.tn-elem[data-elem-id="1618346975007"] .tn-atom').innerText
+    }
+</script>
+
+<script>
+/*
+этот блок можна скрыть, но если возникнут проблемы с привязками характеристик
+то этот блок нужно открыть и следовать инструкции для решения проблемы
+    
+                            !!!ИНСТРУКЦИЯ!!!
+    
+1) опубликовать страницу и перейти на нее
+2) нажать клавишу рус. К (R us) и запустить режим привязки характеристик
+3) и поочереди с зажатой клавишей ctrl нажимать ЛКМ(левая кнопка мыши) по нужным
+   значениям характеристик, сначала на первом блоке, ВАЖНО запомнить последовательность в
+   которой вы нажимаете на характеристики
+4) нажать клавишу рус. В (D us) (без зажатого ctrl)
+5) теперь нажимать  с зажатой клавишей ctrl нажимать ЛКМ(левая кнопка мыши) по нужным
+   значениям характеристик но уже на втором блоке(блоке характеристик модели мусон 7000)
+   в той же последовательности, снова нажать  рус. В (D us) (без зажатого ctrl)
+   и так продолжать до блока последней модели (муссон 18000)
+6) после выполнения пунктов выше нажать клавишу рус. Щ (O us) (без зажатого ctrl)
+7) скопировать весь код что появлся в всплывающем окне, закрыть страницу
+8) перейти в блок кода с надписью "// БЛОК КОДА ДЛЯ РАБОТЫ ЭТОЙ СТРАНИЦИ", он
+   блоком кода выше
+9) выделить весь код ниже строки "//сам код привязки характеристик"(это строка 117 или 
+   рядом) кроме последней строки с текстом "<script>" и вставить код из буфера обмена,
+   сохранить и закрыть
+10) опубликовать страницу и проверить работоспособность, если что то не так попробовать
+    повторить процедуру
+11) скрыть этот блок кода
+
+ИТОГО - проблема должна быть устранина и характеристики в блоках моделей кондиционеров
+должны соответствовать характеристикам на первом блоке, если проблема не устранена
+пишите создателям этого сайта, утилиты
+    
+утилита для привязки характеристик блоков редактора и главного(первого) блока
+мне нужна была что бы ускорить процес работы, а и если как то характеристики(именно
+сами елементы а не их текст) будут измененны и что то перестанет коректно работать, что бы
+все можна было быстро починит
+*/
+    
+    getNode('#rec303803876').style.display = 'block'
+    getNode('#rec303838046').style.display = 'block'
+    getNode('#rec303843806').style.display = 'block'
+    getNode('#rec303846585').style.display = 'block'
+    
+    let exit_reloadCharacteristics = 0
+
+    function reloadCharacteristics() {
+        
+        exit_reloadCharacteristics = function () {
+    		document.removeEventListener('keydown', keyDown)
+    		document.removeEventListener('click', ctrlClick)
+    		alert('режим привязки характеристик деактивирован')
+    	}
+
+    	alert('режим привязки характеристик активирован, что бы выйти нажмите клавишу У(E us) или выполните команду exit_reloadCharacteristics() в консоли')
+
+    	let nodesIds = {
+    		nodes1Ids: []
+	    }
+
+	    let n = 0, swicherNodesIds = 1
+
+    	//переключение с какого блока идет сбор айди елементов характеристик
+
+    	function keyDown(e) {
+    		if(e.code === 'KeyD') {
+				swicherNodesIds++
+				n = 0
+				nodesIds[`nodes${swicherNodesIds}Ids`] = []
+				console.log(nodesIds)
+			}
+
+			//собственно зборка кода и вывод его попапом
+
+			else if(e.code === 'KeyO') {
+
+				let code = ''
+				
+				for(let i = 0; i < nodesIds.nodes1Ids.length; i++) {
+					code += `const n${i + 1}_M = getNode('.tn-elem[data-elem-id="${nodesIds.nodes1Ids[i]}"] .tn-atom')\n`
+				}
+
+				code += '\n'
+
+				code += '//musson 7000\n\nfunction showCharacteristicsM7() {\n\n'
+
+				for(let i = 0; i < nodesIds.nodes2Ids.length; i++) {
+					code += `	n${i + 1}_M.innerText = getNode('.tn-elem[data-elem-id="${nodesIds.nodes2Ids[i]}"] .tn-atom').innerText\n`
+				}
+
+				code += '}\n\n'
+
+
+				code += '//musson 9000\n\nfunction showCharacteristicsM9() {\n\n'
+
+				for(let i = 0; i < nodesIds.nodes3Ids.length; i++) {
+					code += `	n${i + 1}_M.innerText = getNode('.tn-elem[data-elem-id="${nodesIds.nodes3Ids[i]}"] .tn-atom').innerText\n`
+				}
+
+				code += '}\n\n'
+
+
+				code += '//musson 12000\n\nfunction showCharacteristicsM12() {\n\n'
+
+				for(let i = 0; i < nodesIds.nodes4Ids.length; i++) {
+					code += `	n${i + 1}_M.innerText = getNode('.tn-elem[data-elem-id="${nodesIds.nodes4Ids[i]}"] .tn-atom').innerText\n`
+				}
+
+				code += '}\n\n'
+
+
+				code += '//musson 18000\n\nfunction showCharacteristicsM18() {\n\n'
+
+				for(let i = 0; i < nodesIds.nodes5Ids.length; i++) {
+					code += `	n${i + 1}_M.innerText = getNode('.tn-elem[data-elem-id="${nodesIds.nodes5Ids[i]}"] .tn-atom').innerText\n`
+				}
+
+				code += '}\n\n'
+
+				popUp(code)
+			}
+
+			else if(e.code === 'KeyE') {
+				exit_reloadCharacteristics()
+			}
+    	}
+
+    	document.addEventListener('keydown', keyDown)
+/*
+збор айди елементов характеристик
+!!!МАКСИМАЛЬНО ВАЖНО!!! нажимать лкм + ctrl на характеристики в одной и той же
+последовательности на каждом из блоков, в противном случае к нужной характеристике
+на главном экране будет привязана не та характеристика, а какая то другая, так что
+нажимая например на главном экране сначала на характеристику х, потом с, потом а,
+на блоках привязки характиристик нужно нажимать на характеристики в той же последовательности
+*/
+		function ctrlClick(e) {
+			if(e.ctrlKey) {
+
+		    	if(e.path[1].getAttribute('data-elem-id') !== null) {
+		    		nodesIds[`nodes${swicherNodesIds}Ids`][n++] = e.path[1].getAttribute('data-elem-id')
+		    	}
+		    	else {
+		    		alert("Выбран недопустимый обьект!")
+		    	}
+
+			    console.log(nodesIds)
+		    }
+		}
+
+		document.addEventListener('click', ctrlClick)
+    }
+    
+    document.onkeydown = e => {
+        if(e.code === 'KeyR') {
+            reloadCharacteristics()
+        }
+    }
+    
+</script>
+
+<script>
+/*
+програма для создания кода для открытия определенных блоков на кнопки "ОПИС", "ХАРАКТЕРИСТИКИ",
+"ТЕХ. ДОКУМЕНТАЦІЯ"
+
+!!!ИНСТРУКЦИЯ!!!
+
+1) cкройте блок кода ниже
+2) создайте все необходимые блоки
+3) опубликуйте страницу и перейдите на нее
+4) сначала нажмите ЛКМ(левая кнопка миши) с зажатой клавишей ctrl на все блоки которые должны 
+   открываться при нажатии на кнопку "ОПИС", лучше нажимать на пустое пространство блоков
+5) нажмите клавишу "С"
+6) нажмите ЛКМ с зажатой клавишей ctrl на все блоки которые должны открываться при нажатии 
+   на кнопку "ХАРАКТЕРИСТИКИ"
+7) нажмите клавишу "С"
+8) нажмите на все блоки которые должны открываться при нажатии на кнопку "ТЕХ. ДОКУМЕНТАЦІЯ"
+9) нажмите клавишу рус. "Я" (Z us) и скопируйте весь код что был выведен всплывающим окном,
+   закрыть страницу
+10) перейдите в блок кода с надписью "// БЛОК КОДА ДЛЯ РАБОТЫ ЭТОЙ СТРАНИЦИ", он несколькими
+    блоками кода выше и заменить строки кода ниже строки "//код андерлайн блоков"(это строка
+    63 или рядом) и выше строки "//функция переключения блоков определенной кнопки" (это строка
+    71 или рядом)
+12) сохранить и закрыть, опубликовать страницу
+13) сделайте видимым блок кода ниже(обратное действие к пункту 1))
+
+ИТОГО - при нажатии на кнопки "ОПИС", "ХАРАКТЕРИСТИКИ", "ТЕХ. ДОКУМЕНТАЦІЯ" должны появлятся
+соответствующие блоки, если этого не происходит, напишите создателям утилиты или тем кто делал
+эту страницу
+*/
+    
+    let objN = 0, objC = 0
+        objBlocks = {
+            block0_nodes: []
+        }
+        
+    //сбор айди блоков
+    
+    document.addEventListener('click', e => {
+        if(e.ctrlKey) {
+            
+            for(let i = 0; i < e.path.length; i++) {
+                if(e.path[i].id[0] === 'r') {
+                    console.log(e.path[i].id)
+                    
+                    
+                    
+                    objBlocks[`block${objC}_nodes`][objN++] = e.path[i].id
+                     
+                    break
+                }
+            }
+        }
+    })
+    
+    document.addEventListener('keydown', e => {
+        
+        //переключение масива в какоторый идет сбор ойди
+        
+        if(e.code === "KeyC") {
+            objC++
+            objN = 0
+            objBlocks[`block${objC}_nodes`] = []
+        }
+        
+        //сборка кода в строки и вывод его попапом
+        
+        else if(e.code === "KeyZ") {
+            
+			let n = 0
+			let code = 'let underlineBlocks = {\n'
+
+			code += `	desctiptionBlocks: [`
+
+			for(let i = 0; i < objBlocks[`block${n}_nodes`].length; i++) {
+
+				code += `getNode('#${objBlocks[`block${n}_nodes`][i]}')`
+
+				i < objBlocks[`block${n}_nodes`].length - 1 ? code += ', ' : code += '],\n'
+			}
+
+			n++
+
+			code += `	characteristicsBlocks: [`
+
+			for(let i = 0; i < objBlocks[`block${n}_nodes`].length; i++) {
+
+				code += `getNode('#${objBlocks[`block${n}_nodes`][i]}')`
+
+				i < objBlocks[`block${n}_nodes`].length - 1 ? code += ', ' : code += '],\n'
+			}
+
+			n++
+
+			code += `	techDocsBlocks: [`
+
+			for(let i = 0; i < objBlocks[`block${n}_nodes`].length; i++) {
+
+				code += `getNode('#${objBlocks[`block${n}_nodes`][i]}')`
+
+				i < objBlocks[`block${n}_nodes`].length - 1 ? code += ', ' : code += ']\n'
+			}
+
+			code += `}`
+			
+			popUp(code)
+        }
+    })
+    
+</script>
+
+<script>
+    showUnderLineBlocks('desctiptionBlocks', underlineBlocks)    
+</script>
