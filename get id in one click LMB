@@ -1,0 +1,22 @@
+<script>
+
+    // нахождение айди блока одним кликом ЛКМ
+    
+    document.onclick = (e) => {
+        
+        if(e.ctrlKey) {
+            let a = e.target.attributes.field
+            if(a !== undefined) console.log(a.value.substr(8))
+        }
+        
+        // нахождение айди текстового поля одним кликом ЛКМ
+        
+        else {
+            let path = e.path || e.composedPath(),
+            index = path.findIndex(item => item.id.includes('rec'))
+            
+            console.log(path[index].id)    
+        }
+    }
+    
+</script>
