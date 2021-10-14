@@ -3,13 +3,13 @@
     function getNode(node) {
 		return document.querySelector(node)
 	}
-	
+
 	function getDelayNodePr(selector) {			
 
 		return new Promise((res, rej) => {
 
 			function handler() {
-				const node = document.querySelector(selector)
+				const node = getNode(selector)
 				if(!node) setTimeout(handler, 200)
 				else res(node)
 			}
