@@ -1,5 +1,23 @@
 <script>
 
+    function getNode(node) {
+        return document.querySelector(node)
+    }
+
+    function getTildaNode([value, type], rec = rect) {
+        switch(type) {
+            case 'text':
+                return getNode(`#rec${rec} .tn-elem[data-elem-id="${value}"] .tn-atom`)
+                break
+            case 'image':
+                return getNode(`#rec${rec} .tn-elem[data-elem-id="${value}"] .tn-atom .tn-atom__img`)
+                break
+            default:
+                return getNode(`#rec${rec} .tn-elem[data-elem-id="${value}"]`)
+                break
+        }
+    }
+
     // нахождение айди узла одним кликом ЛКМ + ctrl
     
     document.onclick = (e) => {
