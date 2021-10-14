@@ -1,10 +1,24 @@
 <script>
-
+    
     function getNode(node) {
-        return document.querySelector(node)
-    }
+		return document.querySelector(node)
+	}
+	
+	function getDelayNodePr(selector) {			
 
-    function getTildaNode([value, type], rec) {
+		return new Promise((res, rej) => {
+
+			function handler() {
+				const node = document.querySelector(selector)
+				if(!node) setTimeout(handler, 200)
+				else res(node)
+			}
+
+			handler()
+		})
+	}
+
+	function getTildaNode([value, type], rec) {
 		switch(type) {
 			case 'text':
 				return getNode(`#rec${rec} .tn-elem[data-elem-id="${value}"] .tn-atom`)
@@ -20,45 +34,5 @@
 				break
 		}
 	}
-
-    // нахождение айди узла одним кликом ЛКМ + ctrl
-    
-    document.onclick = (e) => {
-        
-        if(e.ctrlKey) {
-            // let a = e.target.attributes.field || e.target.attributes.imgfield,
-            //     path = e.path || e.composedPath(),
-            //     index = path.findIndex(item => item.dataset?.elemType === 'gallery' ? true : false)
-                
-            // // console.log(index)
-            
-            // if(index !== -1 && a !== undefined) console.log(`data-elem-id="${path[index].attributes["data-elem-id"].nodeValue}"`)
-            // else console.log(a.value)
-            
-            let path = e.path || e.composedPath(),
-            rec = path[path.findIndex(item => item.id.includes('rec'))],
-            tI = path.findIndex(item => item?.attributes?.hasOwnProperty('data-elem-id'))
-            
-            if(tI !== -1) {
-                
-                let target = path[tI],
-                    elemId = target.dataset.elemId
-                    
-                console.log([elemId, target.dataset.elemType])
-            }
-            
-            else console.log(`On click in place not exist node with attribute 'data-elem-id'`)
-            
-        }
-        
-       // нахождение айди блока одним кликом ЛКМ
-        
-        else {
-            let path = e.path || e.composedPath(),
-            rec = path[path.findIndex(item => item.id.includes('rec'))]
-            
-            console.log(rec.id)    
-        }
-    }
     
 </script>
