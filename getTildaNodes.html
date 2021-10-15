@@ -1,0 +1,45 @@
+<script>
+    
+    function getNode(node) {
+		return document.querySelector(node)
+	}
+
+	function getDelayNodePr(selector) {
+
+		return new Promise((res, rej) => {
+			let delayMs = 0
+
+			function handler() {
+				if(delayMs < 2000) {
+					const node = getNode(selector)
+					if(!node) {
+						setTimeout(handler, 200)
+						delayMs += 200
+					}
+					else res(node)
+				}
+				else rej('Time limit for node lookup exceeded (2000 milliseconds)!')
+			}
+
+			handler()
+		})
+	}
+
+	function getTildaNode([value, type], rec) {
+		switch(type) {
+			case 'text':
+				return getDelayNodePr(`#rec${rec} .tn-elem[data-elem-id="${value}"] .tn-atom`)
+				break
+			case 'image':
+				return getDelayNodePr(`#rec${rec} .tn-elem[data-elem-id="${value}"] .tn-atom .tn-atom__img`)
+				break
+			case 'gallery':
+				return getDelayNodePr(`#rec${rec} .tn-elem[data-elem-id="${value}"] .tn-atom__gallery .t-slds`)
+				break
+			default:
+				return getDelayNodePr(`#rec${rec} .tn-elem[data-elem-id="${value}"]`)
+				break
+		}
+	}
+    
+</script>
