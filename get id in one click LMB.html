@@ -1,0 +1,38 @@
+<script>
+
+    setTimeout(() => {
+        
+        document.onclick = (e) => {
+        
+            // нахождение айди узла одним кликом ЛКМ + ctrl
+            
+            if(e.ctrlKey) {
+                
+                let path = e.path || e.composedPath(),
+                rec = path[path.findIndex(item => item.id.includes('rec'))],
+                tI = path.findIndex(item => item?.attributes?.hasOwnProperty('data-elem-id'))
+                
+                if(tI !== -1) {
+                    
+                    let target = path[tI],
+                        elemId = target.dataset.elemId
+                        
+                    console.log([elemId, target.dataset.elemType])
+                }
+                
+                else console.log(`On click in place not exist node with attribute 'data-elem-id'`)
+                
+            }
+            
+           // нахождение айди блока одним кликом ЛКМ
+            
+            else {
+                let path = e.path || e.composedPath(),
+                rec = path[path.findIndex(item => item.id.includes('rec'))]
+                
+                console.log(rec.id)    
+            }
+        }
+    }, 1)
+    
+</script>
